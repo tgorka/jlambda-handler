@@ -1,7 +1,7 @@
 {
   "name": "jslambda-handler",
-  "version": "0.0.2",
-  "main": "src/index",
+  "version": "0.0.3",
+  "main": "src/index.js",
   "repository": "https://github.com/tgorka/jslambda-handler.git",
   "author": "tgorka <tomasz@gorka.org.pl>",
   "license": "MIT",

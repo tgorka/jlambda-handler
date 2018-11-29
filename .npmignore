@@ -1,0 +1,6 @@
+# Ignores TypeScript files, but keeps definitions.
+**/*.spec.ts
+**/*.spec.js
+**/*.spec.map.js
+!*.d.ts
+!**/*.js
