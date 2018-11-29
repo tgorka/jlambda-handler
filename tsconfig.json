@@ -12,7 +12,7 @@
     "noImplicitAny": false,
     "target": "es2017",
     "rootDir": "./",
-    "outDir": ".build",
+    "outDir": "./",
     "moduleResolution": "node",
     "types": [
       "node",
