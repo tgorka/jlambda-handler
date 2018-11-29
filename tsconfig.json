@@ -1,0 +1,31 @@
+{
+  "include": [
+    "**/*.ts",
+    "**/*json"
+  ],
+  "exclude": [
+    "node_modules",
+    "webpack",
+    "build"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "target": "es2017",
+    "rootDir": "./",
+    "outDir": ".build",
+    "moduleResolution": "node",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "strictNullChecks": false,
+    "module": "commonjs",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}

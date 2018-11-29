@@ -1,0 +1,47 @@
+{
+  "name": "jslambda-handler",
+  "version": "0.0.1",
+  "main": "src/index",
+  "repository": "https://github.com/tgorka/jslambda-handler.git",
+  "author": "tgorka <tomasz@gorka.org.pl>",
+  "license": "MIT",
+  "scripts": {
+    "build:noclean": "tsc",
+    "build": "yarn clean && yarn build:noclean",
+    "clean:dist": "rm -rf *.js && rm -rf *.js.map",
+    "clean:types": "rm -rf types",
+    "clean": "yarn clean:dist && yarn clean:types",
+    "publish": "yarn login && yarn publish",
+    "test": "env-cmd ./environment/ci.env jest --verbose --runInBand"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  },
+  "dependencies": {
+    "debug": "^4.1.0",
+    "jsonpath": "^1.0.0",
+    "source-map-support": "^0.5.9"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.31",
+    "@types/jest": "^23.3.10",
+    "@types/jsonpath": "^0.2.0",
+    "@types/source-map-support": "^0.4.1",
+    "env-cmd": "^8.0.2",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.5",
+    "typescript": "^3.1.6",
+    "yarn": "^1.12.3"
+  }
+}
