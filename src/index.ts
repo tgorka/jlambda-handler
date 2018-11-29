@@ -5,7 +5,7 @@ import * as jsonpath from "jsonpath";
 const debug = _debug("jslambda-debug-handler");
 
 // can encode data (ex. adding custom result code)
-export const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalArgsJsonPath: string[] = []) => {
+const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalArgsJsonPath: string[] = []) => {
     return async (event, context, callback): Promise<void> => {
         try {
             debug(`calling with event ${JSON.stringify(event)}; context ${JSON.stringify(context)}; ` +
