@@ -3,9 +3,11 @@ import * as _debug from "debug";
 import * as jsonpath from "jsonpath";
 
 const debug = _debug("jslambda-debug-handler");
+const error = _debug("jslambda-error-handler");
 
 // can encode data (ex. adding custom result code)
-const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalArgsJsonPath: string[] = []) => {
+const handler = (fun: Function | Promise<Function>, obligatoryArgsJsonPath: string[] = [],
+         optionalArgsJsonPath: string[] = [], doThrowError = false) => {
     return async (event, context, callback): Promise<void> => {
         try {
             debug(`calling with event ${JSON.stringify(event)}; context ${JSON.stringify(context)}; ` +
@@ -28,7 +30,7 @@ const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalA
             const args = ArgsJsonPath.map(argName => jsonpath.value(body, argName));
             debug(`call with parameter values ${JSON.stringify(args)}`);
 
-            const results = await fun(...args);
+            const results = await (await fun)(...args);
 
             const response = (!event.body) ? results : {
                 statusCode: 200,
@@ -45,9 +47,9 @@ const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalA
             err.statusCode = err.statusCode || 500;
             err.stackTrace = err.stackTrace || [];
             err.body = err.body || err.message || err.msg || err.errorMessage;
-            callback(err);
+            (doThrowError) ? callback(null, err) : callback(err);
             //throw err;
-            console.log(err);
+            error(`ERROR: ${JSON.stringify(err)}`);
             // force to exit the process so no waiting for timeout
             process.exit(-1);
         }
