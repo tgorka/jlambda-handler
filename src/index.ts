@@ -1,12 +1,17 @@
 import "source-map-support/register";
 import * as _debug from "debug";
 import * as jsonpath from "jsonpath";
+import {type} from "os";
 
 const debug = _debug("jslambda-debug-handler");
 const error = _debug("jslambda-error-handler");
 
+export type HandlerBasicFunction = Function | Promise<Function>;
+export type HandlerImportFunction = {default: HandlerBasicFunction} | Promise<{default: HandlerBasicFunction}>;
+export type HandlerFunction = HandlerBasicFunction | HandlerImportFunction;
+
 // can encode data (ex. adding custom result code)
-const handler = (fun: Function | Promise<Function>, obligatoryArgsJsonPath: string[] = [],
+export const handler = (fun: HandlerFunction, obligatoryArgsJsonPath: string[] = [],
          optionalArgsJsonPath: string[] = [], doThrowError = false) => {
     return async (event, context, callback): Promise<void> => {
         try {
@@ -30,7 +35,10 @@ const handler = (fun: Function | Promise<Function>, obligatoryArgsJsonPath: stri
             const args = ArgsJsonPath.map(argName => jsonpath.value(body, argName));
             debug(`call with parameter values ${JSON.stringify(args)}`);
 
-            const results = await (await fun)(...args);
+            const awaitedFun = await fun;
+            const importedFun = ("default" in awaitedFun) ?  awaitedFun.default : awaitedFun;
+            const importedAwaitedFun = await importedFun;
+            const results = await importedAwaitedFun(...args);
 
             const response = (!event.body) ? results : {
                 statusCode: 200,
