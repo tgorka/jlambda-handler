@@ -10,6 +10,8 @@ const handler = (fun: Function, obligatoryArgsJsonPath: string[] = [], optionalA
         try {
             debug(`calling with event ${JSON.stringify(event)}; context ${JSON.stringify(context)}; ` +
                 `obligatoryArgs ${obligatoryArgsJsonPath}, optionalArgs ${optionalArgsJsonPath}`);
+            // empty event is {}
+            event = event || {};
 
             // Check if event.Records[0].Sns.Message exist
             let snsEvent = (((event.Records && event.Records[0]) || {}).Sns || {}).Message;
