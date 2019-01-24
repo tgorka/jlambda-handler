@@ -67,7 +67,7 @@ export const handler = (fun: HandlerFunction, obligatoryArgsJsonPath: string[] =
             callback(null, response);
             debug('calling afer the response')
             // force to exit the process so no waiting for timeout
-            //process.exit(0);
+            // process.exit(0);
         } catch (err) {
             errorHandler(err, callback, doThrowError);
         }
