@@ -1,6 +1,6 @@
 {
   "name": "jslambda-handler",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "main": "src/index.js",
   "repository": "https://github.com/tgorka/jslambda-handler.git",
   "author": "tgorka <tomasz@gorka.org.pl>",

@@ -19,8 +19,9 @@ const SRC_CONTEXT = {
     "invokedFunctionArn": "arn:aws:lambda:us-west-1:XXX:function:js-lambda-handler"
 };
 
-const caller = (fun: (...args)=>any, args: any) => new Promise((resolve, reject) => {
-    const lambdaFun = handler(fun, args);
+const caller = (fun: (...args)=>any, args: any, optionalArgs?: any,
+                doThtowError?: boolean, doAsyncExecution?: boolean) => new Promise((resolve, reject) => {
+    const lambdaFun = handler(fun, args, optionalArgs, doThtowError, doAsyncExecution);
     lambdaFun(SRC_EVENT, SRC_CONTEXT, (err, data) => {
         if (!!err) reject(err);
         else resolve(data);
@@ -55,6 +56,21 @@ describe("handler:noArg Test", () => {
 
     it("handler result should exist", () => expect(data).toBeDefined());
     it("handler result should be the same like the template", () => expect(data).toEqual('TEST'));
+});
+
+describe("handler:async Test", () => {
+    let data = undefined;
+
+    beforeAll(async () => {
+        data = await caller(() => 'TEST', [], [], false, true);
+    });
+
+    afterAll(async () => {
+        // NONE
+    });
+
+    it("handler result should exist", () => expect(data).toBeDefined());
+    it("handler result should be always empty", () => expect(data).toEqual({}));
 });
 
 describe("handler:arg Test", () => {
